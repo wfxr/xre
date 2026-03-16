@@ -1,0 +1,28 @@
+[package]
+name = "xre"
+version = "0.1.0"
+authors = ["Wenxuan Zhang <wenxuangm@gmail.com>"]
+description = "A fast regex extraction tool with pattern matching, replacement, and configurable sorting"
+categories = ["command-line-utilities"]
+homepage = "https://github.com/wfxr/xre"
+keywords = ["regex", "extract", "filter", "cli"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/wfxr/xre"
+edition = "2024"
+rust-version = "1.94"
+readme = "README.md"
+
+[dependencies]
+clap = { version = "4", features = ["wrap_help", "derive"] }
+regex = "1"
+anyhow = "1"
+indexmap = "2"
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+tempfile = "3.27.0"
+
+[profile.release]
+lto = true
+codegen-units = 1
