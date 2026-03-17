@@ -23,7 +23,7 @@ jobs:
         os:
           - ubuntu-24.04        # Linux x86_64
           - ubuntu-24.04-arm    # Linux aarch64
-          - macos-13            # macOS x86_64 (Intel)
+          - macos-15-intel      # macOS x86_64 (Intel)
           - macos-14            # macOS aarch64 (Apple Silicon)
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
