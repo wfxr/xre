@@ -17,6 +17,19 @@
 
 ## Installation
 
+### Quick Install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/wfxr/xre/main/install.sh | bash
+```
+
+Install a specific version or to a custom directory:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/wfxr/xre/main/install.sh | bash -s -- -v v0.1.0
+curl -fsSL https://raw.githubusercontent.com/wfxr/xre/main/install.sh | bash -s -- -d /usr/local/bin
+```
+
 ### From crates.io
 
 ```bash
