@@ -1,0 +1,68 @@
+name: Integration
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "install.sh"
+      - ".github/workflows/integration.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "install.sh"
+      - ".github/workflows/integration.yml"
+
+jobs:
+  test-install:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04        # Linux x86_64
+          - ubuntu-24.04-arm    # Linux aarch64
+          - macos-14            # macOS aarch64 (Apple Silicon)
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Test --help
+        run: bash install.sh --help
+
+      - name: Install specific version
+        run: |
+          bash install.sh -v v0.1.0 -d "$RUNNER_TEMP/xre-test"
+          "$RUNNER_TEMP/xre-test/xre" --version | grep -q "0.1.0"
+
+      - name: Install latest version
+        run: |
+          bash install.sh -d "$RUNNER_TEMP/xre-latest"
+          "$RUNNER_TEMP/xre-latest/xre" --version
+
+      - name: Install via curl pipe
+        run: |
+          curl -fsSL "file://$PWD/install.sh" | bash -s -- -d "$RUNNER_TEMP/xre-pipe"
+          "$RUNNER_TEMP/xre-pipe/xre" --version
+
+      - name: Verify basic functionality
+        run: |
+          XRE="$RUNNER_TEMP/xre-latest/xre"
+
+          # Basic extraction
+          echo "visit https://example.com today" | "$XRE" -e 'https?://\S+' | grep -qx "https://example.com"
+
+          # Extract with replacement
+          echo "git@github.com:wfxr/xre.git" | "$XRE" -e 'git@([^:]+):(.+)\.git' -r 'https://$1/$2' | grep -qx "https://github.com/wfxr/xre"
+
+          # Dedup by default
+          result=$(printf 'https://a.com\nhttps://a.com\n' | "$XRE" -e 'https?://\S+' | wc -l)
+          [ "$result" -eq 1 ]
+
+          # Line numbers
+          printf 'aaa https://a.com\nbbb https://b.com\n' | "$XRE" -n -e 'https?://\S+' | grep -q "^1:https://a.com"
+
+          echo "All checks passed"
