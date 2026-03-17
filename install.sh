@@ -98,7 +98,7 @@ detect_target() {
         linux_x86_64)   target="x86_64-unknown-linux-musl" ;;
         linux_aarch64)  target="aarch64-unknown-linux-musl" ;;
         darwin_aarch64) target="aarch64-apple-darwin" ;;
-        darwin_x86_64)  die "No pre-built binary for macOS x86_64. Please use: cargo install ${BIN}" ;;
+        darwin_x86_64)  target="x86_64-apple-darwin" ;;
         *)              die "Unsupported platform: ${os} ${arch}" ;;
     esac
 
