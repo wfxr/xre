@@ -1,6 +1,6 @@
 [package]
 name = "xre"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Wenxuan Zhang <wenxuangm@gmail.com>"]
 description = "A fast regex extraction tool with pattern matching, replacement, and configurable sorting"
 categories = ["command-line-utilities"]

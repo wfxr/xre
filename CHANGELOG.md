@@ -1,4 +1,16 @@
 
+## [0.1.1](https://github.com/wfxr/xre/compare/v0.1.0..0.1.1) (2026-03-17)
+
+### 🚀 Features
+
+- Add macOS x86_64 (Intel) release support [#3](https://github.com/wfxr/xre/issues/3) ( @wfxr)
+- Add install.sh for one-line binary installation [#2](https://github.com/wfxr/xre/issues/2) ( @wfxr)
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump up dependencies ( @wfxr)
+- Update ignore ( @wfxr)
+
 ## [0.1.0] - 2026-03-17
 
 ### 🚀 Features
