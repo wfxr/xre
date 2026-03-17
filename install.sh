@@ -66,8 +66,8 @@ INSTALL_DIR=""
 
 while [ $# -gt 0 ]; do
     case "$1" in
-        -v|--version) VERSION="$2"; shift 2 ;;
-        -d|--dir)     INSTALL_DIR="$2"; shift 2 ;;
+        -v|--version) [ $# -ge 2 ] || die "-v/--version requires an argument"; VERSION="$2"; shift 2 ;;
+        -d|--dir)     [ $# -ge 2 ] || die "-d/--dir requires an argument"; INSTALL_DIR="$2"; shift 2 ;;
         -h|--help)    usage; exit 0 ;;
         *)            die "Unknown option: $1 (see --help)" ;;
     esac
@@ -125,7 +125,7 @@ resolve_version() {
     if command -v jq >/dev/null 2>&1; then
         version=$(echo "$response" | jq -r '.tag_name')
     else
-        version=$(echo "$response" | grep -oP '"tag_name"\s*:\s*"\K[^"]+')
+        version=$(echo "$response" | sed -n 's/.*"tag_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
     fi
 
     [ -n "$version" ] && [ "$version" != "null" ] \
